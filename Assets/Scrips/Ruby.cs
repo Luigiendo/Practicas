@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Ruby : MonoBehaviour
 {
-    public Animator Animator;
+    public Animator animator;
     public SpriteRenderer ruby;
     [Header("Balance variables")]
     [SerializeField]
     private float moveSpeed;
-    private int HP = 30;
-    [SerializeField]
-    private int currentHP = 30;
+    public int HP = 30;
+    [HideInInspector]
+    public int currentHP = 30;
     public void RestarVida(int VidaRestar) 
     {
         Debug.Log("Pego");
@@ -36,35 +36,35 @@ public class Ruby : MonoBehaviour
     {
        if(Input.GetKey(KeyCode.W))
         {
-            Animator.SetBool("RunBack",true);
-            Animator.SetBool("RunFront",false);
-            Animator.SetBool("RunSide",false);
+            animator.SetBool("RunBack",true);
+            animator.SetBool("RunFront",false);
+            animator.SetBool("RunSide",false);
             transform.position = new Vector2(transform.position.x,transform.position.y + moveSpeed);
         } 
         
         if(Input.GetKey(KeyCode.S))
         {
-            Animator.SetBool("RunBack",false);
-            Animator.SetBool("RunFront",true);
-            Animator.SetBool("RunSide",false);
+            animator.SetBool("RunBack",false);
+            animator.SetBool("RunFront",true);
+            animator.SetBool("RunSide",false);
             transform.position = new Vector2(transform.position.x,transform.position.y - moveSpeed);
         }
         
         if(Input.GetKey(KeyCode.A))
         {
             ruby.flipX = false;
-            Animator.SetBool("RunBack",false);
-            Animator.SetBool("RunFront",false);
-            Animator.SetBool("RunSide",true);
+            animator.SetBool("RunBack",false);
+            animator.SetBool("RunFront",false);
+            animator.SetBool("RunSide",true);
             transform.position = new Vector2(transform.position.x - moveSpeed, transform.position.y);
         }
         
         if(Input.GetKey(KeyCode.D))
         {
             ruby.flipX = true;
-            Animator.SetBool("RunBack",false);
-            Animator.SetBool("RunFront",false);
-            Animator.SetBool("RunSide",true);
+            animator.SetBool("RunBack",false);
+            animator.SetBool("RunFront",false);
+            animator.SetBool("RunSide",true);
             transform.position = new Vector2(transform.position.x + moveSpeed, transform.position.y);
         }
     }
@@ -73,21 +73,21 @@ public class Ruby : MonoBehaviour
     {
         if(collision.CompareTag("Hazard"))
         {
-            Animator.SetTrigger("Damage1");
-            if ((currentHP - collision.GetComponent<Hazard>().VidaAQuitar) < 0)
+            animator.SetTrigger("Damage1");
+            if ((currentHP - collision.GetComponent<Hazard>().vidaAQuitar) < 0)
                 currentHP = 0;
             else 
-                currentHP -= collision.GetComponent<Hazard>().VidaAQuitar;
+                currentHP -= collision.GetComponent<Hazard>().vidaAQuitar;
 
 
         }
 
         if(collision.CompareTag("Heal"))
         {
-            if ((currentHP + collision.GetComponent<Heal>().VidaAObtener) > HP)
+            if ((currentHP + collision.GetComponent<Heal>().vidaAObtener) > HP)
                 currentHP = HP;
             else
-                currentHP += collision.GetComponent<Heal>().VidaAObtener;
+                currentHP += collision.GetComponent<Heal>().vidaAObtener;
             
             //activar particulas
         }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Heal : MonoBehaviour
 {
-    public int VidaAObtener;
+    public int vidaAObtener;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))

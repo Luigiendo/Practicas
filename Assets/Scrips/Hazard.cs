@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Hazard : MonoBehaviour
 {
-    public int VidaAQuitar;
+    public int vidaAQuitar;
+    public Animator animator;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-        
+            animator.SetTrigger("FireDamage");
         }
 
     }
