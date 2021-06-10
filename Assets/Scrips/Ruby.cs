@@ -6,12 +6,18 @@ public class Ruby : MonoBehaviour
 {
     public Animator animator;
     public SpriteRenderer ruby;
+    public Rigidbody2D rigibody;
     [Header("Balance variables")]
     [SerializeField]
     private float moveSpeed;
     public int HP = 30;
     [HideInInspector]
     public int currentHP = 30;
+    [SerializeField]
+    private float jumpForce = 1;
+    private float horizontal;
+    private float vertical;
+    private Vector3 direction;
     public void RestarVida(int VidaRestar) 
     {
         Debug.Log("Pego");
@@ -34,27 +40,35 @@ public class Ruby : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       if(Input.GetKey(KeyCode.W))
+        horizontal = Input.GetAxis("Horizontal");
+        vertical = Input.GetAxis("Vertical");
+        direction = new Vector3(horizontal, 0f, vertical);
+
+        if(Input.GetKeyDown(KeyCode.Space))
         {
-            animator.SetBool("RunBack",true);
-            animator.SetBool("RunFront",false);
-            animator.SetBool("RunSide",false);
-            transform.position = new Vector2(transform.position.x,transform.position.y + moveSpeed);
-        } 
-        
-        if(Input.GetKey(KeyCode.S))
-        {
-            animator.SetBool("RunBack",false);
-            animator.SetBool("RunFront",true);
-            animator.SetBool("RunSide",false);
-            transform.position = new Vector2(transform.position.x,transform.position.y - moveSpeed);
+            rigibody.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
         }
+       //if(Input.GetKey(KeyCode.W))
+       // {
+       //     animator.SetBool("RunBack",true);
+       //     animator.SetBool("RunFront",false);
+       //     animator.SetBool("RunSide",false);
+       //     transform.position = new Vector2(transform.position.x,transform.position.y + moveSpeed);
+       // } 
+        
+       // if(Input.GetKey(KeyCode.S))
+       // {
+       //     animator.SetBool("RunBack",false);
+       //     animator.SetBool("RunFront",true);
+       //     animator.SetBool("RunSide",false);
+       //     transform.position = new Vector2(transform.position.x,transform.position.y - moveSpeed);
+       // }
         
         if(Input.GetKey(KeyCode.A))
         {
             ruby.flipX = false;
-            animator.SetBool("RunBack",false);
-            animator.SetBool("RunFront",false);
+            //animator.SetBool("RunBack",false);
+            //animator.SetBool("RunFront",false);
             animator.SetBool("RunSide",true);
             transform.position = new Vector2(transform.position.x - moveSpeed, transform.position.y);
         }
@@ -62,10 +76,15 @@ public class Ruby : MonoBehaviour
         if(Input.GetKey(KeyCode.D))
         {
             ruby.flipX = true;
-            animator.SetBool("RunBack",false);
-            animator.SetBool("RunFront",false);
+            //animator.SetBool("RunBack",false);
+            //animator.SetBool("RunFront",false);
             animator.SetBool("RunSide",true);
             transform.position = new Vector2(transform.position.x + moveSpeed, transform.position.y);
+        }
+
+        if(direction.magnitude == 0f)
+        {
+            animator.SetBool("RunSide", false);
         }
     }
 
